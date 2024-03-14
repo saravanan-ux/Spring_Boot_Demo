@@ -1,0 +1,12 @@
+2024-03-14 21:59:44.352052+08:00 jdbc[14]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table[*]. test (name varchar(255))"; expected "identifier"; SQL statement:
+create table. test (name varchar(255)) [42001-224]
+2024-03-14 22:00:22.380870+08:00 jdbc[14]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PERSONS" already exists; SQL statement:
+CREATE TABLE Persons (
+    PersonID int,
+    LastName varchar(255),
+    FirstName varchar(255),
+    Address varchar(255),
+    City varchar(255)
+) [42101-224]
