@@ -62,7 +62,7 @@ jobs:
       run: mvn clean package --file pom.xml
 
     - name: Create artifacts directory if not exists
-      run: mkdir -p artifacts
+      run: echo "${{test.mykey}}"
 
     - name: Move artifacts to the artifacts directory
       run: |
