@@ -24,7 +24,7 @@ jobs:
       run: mvn clean package --file pom.xml
 
     - name: Deploy JAR to server
-      run: scp -i ${{ TESTTT }} target/*.jar ubuntu@13.127.122.172:/home/ubuntu
+      run: scp -i ${{ secrets.TESTTT }} target/*.jar ubuntu@13.127.122.172:/home/ubuntu
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts
     - name: Update dependency graph
