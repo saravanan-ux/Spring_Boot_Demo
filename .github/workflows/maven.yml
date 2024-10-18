@@ -43,9 +43,6 @@
 
 
 
-
-
-
 name: Java CI with Maven
 
 on:
@@ -75,18 +72,10 @@ jobs:
       run: mkdir -p artifacts
 
     - name: Move artifact to new directory
-      run: mv target/*.jar artifacts/  # Adjust this path as necessary
+      run: mv target/*.jar artifacts/ || echo "No JAR files found"
 
-    - name: Push artifact to GitHub
-      uses: actions/checkout@v4
+    - name: Upload artifacts to GitHub
+      uses: actions/upload-artifact@v3
       with:
-        fetch-depth: 0  # Ensure full history is available for pushing
-        token: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Commit and push artifacts
-      run: |
-        git config --local user.name "github-actions"
-        git config --local user.email "github-actions@github.com"
-        git add artifacts/
-        git commit -m "Add built artifacts" || echo "No changes to commit"
-        git push
+        name: my-artifact
+        path: artifacts/
