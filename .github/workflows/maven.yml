@@ -41,8 +41,6 @@
 
 
 
-
-
 name: Java CI with Maven
 
 on:
@@ -56,7 +54,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
 
     - name: Set up JDK 21
       uses: actions/setup-java@v4
@@ -68,14 +67,33 @@ jobs:
     - name: Build with Maven
       run: mvn clean package --file pom.xml
 
-    - name: Create a new directory for artifacts
+    - name: Create artifacts directory if not exists
       run: mkdir -p artifacts
 
-    - name: Move artifact to new directory
-      run: mv target/*.jar artifacts/ || echo "No JAR files found"
+    - name: Move artifacts to the artifacts directory
+      run: |
+        if [ -f target/*.jar ]; then
+          mv target/*.jar artifacts/
+        else
+          echo "No JAR files found"
+        fi
 
-    - name: Upload artifacts to GitHub
-      uses: actions/upload-artifact@v3
+    - name: Checkout the repository again for pushing changes
+      uses: actions/checkout@v4
       with:
-        name: my-artifact
-        path: artifacts/
+        fetch-depth: 0  # Fetch all history for proper pushing
+
+    - name: Configure Git
+      run: |
+        git config --local user.name "github-actions"
+        git config --local user.email "github-actions@github.com"
+
+    - name: Commit and push artifacts to the repository
+      run: |
+        if [ -d artifacts ] && [ "$(ls -A artifacts)" ]; then
+          git add artifacts/
+          git commit -m "Add built artifacts" || echo "No changes to commit"
+          git push
+        else
+          echo "No artifacts to commit."
+        fi
