@@ -23,7 +23,7 @@ jobs:
           cache: maven
 
       # Build the project with Maven
-      - name: Build with Maven
+      - name: Build with Mavennnn
         run: mvn -B package --file pom.xml
 
       # Log in to Docker Hub
